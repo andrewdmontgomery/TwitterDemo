@@ -13,11 +13,22 @@ class Tweet: NSObject {
     var text: String?
     var createdAtString: String?
     var createdAt: NSDate?
+    var retweetedStatus: NSDictionary?
+    var retweeted: Bool? {
+        get {
+            if retweetedStatus == nil {
+                return false
+            } else {
+                return true
+            }
+        }
+    }
     
     init(dictionary: NSDictionary) {
         user = User(dictionary: dictionary["user"] as! NSDictionary)
         text = dictionary["text"] as? String
         createdAtString = dictionary["created_at"] as? String
+        retweetedStatus = dictionary["retweeted_status"] as? NSDictionary
         
         // NSDateFormatter is very expensive.
         // Consider making it static, and setting 'createdAt' lazily
