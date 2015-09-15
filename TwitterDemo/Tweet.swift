@@ -23,18 +23,32 @@ class Tweet: NSObject {
             }
         }
     }
+    var retweetedUser: User?
     
     init(dictionary: NSDictionary) {
         user = User(dictionary: dictionary["user"] as! NSDictionary)
         text = dictionary["text"] as? String
-        createdAtString = dictionary["created_at"] as? String
         retweetedStatus = dictionary["retweeted_status"] as? NSDictionary
+        if retweetedStatus != nil {
+            retweetedUser = User(dictionary: retweetedStatus!["user"] as! NSDictionary)
+        }
+        
+        
+        
+        //createdAtString = dictionary["created_at"] as? String
+        let createAtStringOriginal = dictionary["created_at"] as? String
         
         // NSDateFormatter is very expensive.
         // Consider making it static, and setting 'createdAt' lazily
         var formatter = NSDateFormatter()
         formatter.dateFormat = "EEE MMM d HH:mm:ss Z y"
-        createdAt = formatter.dateFromString(createdAtString!)
+        createdAt = formatter.dateFromString(createAtStringOriginal!)
+        
+        if createdAt != nil {
+            var shortFormatter = NSDateFormatter()
+            shortFormatter.dateFormat = "M/d/yy"
+            createdAtString = shortFormatter.stringFromDate(createdAt!)
+        }
     }
     
     class func tweetsWithArray(array: [NSDictionary]) -> [Tweet] {

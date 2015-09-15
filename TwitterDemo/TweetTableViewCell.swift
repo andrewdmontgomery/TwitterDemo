@@ -14,8 +14,6 @@ class TweetTableViewCell: UITableViewCell {
 
     var tweet: Tweet? {
         didSet {
-            println("tweet was set")
-            //nameLabel.text = tweet
             nameLabel.text = tweet?.user?.name
             screenNameLabel.text = tweet?.user?.screenname
             var profileImageURL: NSURL?
@@ -28,6 +26,21 @@ class TweetTableViewCell: UITableViewCell {
             }
             //dateLabel.text = tweet?.createdAtString
             tweetTextLabel.text = tweet?.text
+            dateLabel.text = tweet?.createdAtString
+            
+            if tweet?.retweeted != nil {
+                retweeterNameLabel.text = tweet?.retweetedUser?.name
+                retweetedLabel.text = "retweeted"
+                retweeterNameLabel.hidden = false
+                retweetedLabel.hidden = false
+                retweeterImageView.hidden = false
+            } else {
+                retweeterNameLabel.text = nil
+                retweetedLabel.text = nil
+                retweeterNameLabel.hidden = true
+                retweetedLabel.hidden = true
+                retweeterImageView.hidden = true
+            }
         }
     }
     
@@ -41,10 +54,25 @@ class TweetTableViewCell: UITableViewCell {
 
     @IBOutlet weak var retweeterNameLabel: UILabel!
     @IBOutlet weak var retweetedLabel: UILabel!
+    @IBOutlet weak var retweeterImageView: UIImageView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        profileImageView.layer.cornerRadius = 5
+        profileImageView.clipsToBounds = true
+        
+        // Fix the length of the nameLabel view for autolayout
+        //nameLabel.preferredMaxLayoutWidth = nameLabel.frame.size.width
+        
+   }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        // Fix the length of the nameLabel view for autolayout
+        //nameLabel.preferredMaxLayoutWidth = nameLabel.frame.size.width
+        
     }
 
     override func setSelected(selected: Bool, animated: Bool) {

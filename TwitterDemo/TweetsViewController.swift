@@ -19,6 +19,8 @@ class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.estimatedRowHeight = 150.0
+        tableView.rowHeight = UITableViewAutomaticDimension
         
         // Do any additional setup after loading the view.
         TwitterClient.sharedInstance.homeTimeLineWithParams(nil, completion: { (tweets, error) -> () in
@@ -50,7 +52,6 @@ class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         let cell = tableView.dequeueReusableCellWithIdentifier(tweetTableViewCellReuseIdentifier) as! TweetTableViewCell
         
         let tweet = tweets![indexPath.row]
-        println("cell was created")
         cell.tweet = tweet
         
         return cell
