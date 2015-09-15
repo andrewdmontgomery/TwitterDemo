@@ -32,7 +32,7 @@ class TwitterClient: BDBOAuth1RequestOperationManager {
             
             completion(tweets: tweets, error: nil)
         }, failure: { (operation:AFHTTPRequestOperation!, error:NSError!) -> Void in
-            println("error getting current home timeline")
+            println("error getting current home timeline: \(error)")
             completion(tweets: nil, error: error)
         })
     }
@@ -44,6 +44,26 @@ class TwitterClient: BDBOAuth1RequestOperationManager {
         }) { (operation: AFHTTPRequestOperation!, error: NSError!) -> Void in
             println("error posting status")
             completion(tweet: nil, error: error)
+        }
+    }
+    
+    func postFavoriteWithParams(params: NSDictionary?, completion: (tweet: Tweet?, error: NSError?) -> ()) {
+        POST("1.1/favorites/create.json", parameters: params, success: { (operation: AFHTTPRequestOperation!, response: AnyObject!) -> Void in
+            println("create favorite status: \(response)")
+            completion(tweet: nil, error: nil)
+        }) { (operation: AFHTTPRequestOperation!, error: NSError!) -> Void in
+            println("error creating favorite status: \(error)")
+            completion(tweet: nil, error: error)
+        }
+    }
+    
+    func destroyFavoriteWithParams(params: NSDictionary?, completion: (tweet: Tweet?, error: NSError?) -> ()) {
+        POST("1.1/favorites/destroy.json", parameters: params, success: { (operation: AFHTTPRequestOperation!, response: AnyObject!) -> Void in
+            println("destroy post status: \(response)")
+            completion(tweet: nil, error: nil)
+            }) { (operation: AFHTTPRequestOperation!, error: NSError!) -> Void in
+                println("error destroying favorite status: \(error)")
+                completion(tweet: nil, error: error)
         }
     }
     

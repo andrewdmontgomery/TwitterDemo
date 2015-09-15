@@ -33,6 +33,7 @@ class NewTweetViewController: UIViewController {
             profileImageView.setImageWithURL(profileImageURL)
         }
         
+        tweetTextView.becomeFirstResponder()
         
     }
 

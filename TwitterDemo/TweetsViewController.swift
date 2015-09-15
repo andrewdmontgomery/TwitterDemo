@@ -101,6 +101,11 @@ class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         return cell
     }
     
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        
+        //performSegueWithIdentifier("TweetDetailViewController", sender: self)
+    }
     
     // MARK: - Navigation
 
@@ -112,6 +117,15 @@ class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDa
             let navigationController = segue.destinationViewController as! UINavigationController
             let destinationViewController = navigationController.viewControllers[0] as! NewTweetViewController
             destinationViewController.user = User.currentUser
+        }
+        
+        if identifier == "TweetDetailViewController" {
+            let cell = sender as! TweetTableViewCell
+            let indexPath = tableView.indexPathForCell(cell)!
+            let tweet = tweets![indexPath.row]
+            
+            let destinationViewController = segue.destinationViewController as! TweetDetailViewController
+            destinationViewController.tweet = tweet
         }
     }
     
