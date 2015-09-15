@@ -39,6 +39,12 @@ class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         // Dispose of any resources that can be recreated.
     }
     
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        fetchTweets()
+    }
+    
     func fetchTweets() {
         TwitterClient.sharedInstance.homeTimeLineWithParams(nil, completion: { (tweets, error) -> () in
             self.tweets = tweets
@@ -50,6 +56,32 @@ class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDa
     @IBAction func onLogout(sender: AnyObject) {
         User.currentUser?.logout()
     }
+    
+    @IBAction func postTweetStatus(segue: UIStoryboardSegue) {
+        dismissViewControllerAnimated(true, completion: nil)
+        let sourceViewController = segue.sourceViewController as! NewTweetViewController
+        
+    }
+    
+    @IBAction func cancelTweetStatus(segue: UIStoryboardSegue) {
+        dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    // MARK: - NewTweetViewControllerDelegate
+//    func newTweetViewController(newTweetViewController: NewTweetViewController, didPostStatusWithParams: [String:AnyObject]) {
+//        if count(newTweetViewController.tweetTextView.text) > 0 {
+//            var statusParams = ["status" : newTweetViewController.tweetTextView.text]
+//            TwitterClient.sharedInstance.postStatusWithParams(didPostStatusWithParams, completion: { (tweet, error) -> () in
+//                
+//            })
+//            newTweetViewController.dismissViewControllerAnimated(true, completion: nil)
+//        }
+//
+//    }
+//    
+//    func newTweetViewControllerDidCancelStatus(newTweetViewController: NewTweetViewController) {
+//        newTweetViewController.dismissViewControllerAnimated(true, completion: nil)
+//    }
     
     // MARK: - UITableView
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -69,14 +101,19 @@ class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         return cell
     }
     
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        let identifier = segue.identifier
+        
+        if identifier == "NewTweetSegueIdentifier" {
+            let navigationController = segue.destinationViewController as! UINavigationController
+            let destinationViewController = navigationController.viewControllers[0] as! NewTweetViewController
+            destinationViewController.user = User.currentUser
+        }
     }
-    */
+    
 
 }
