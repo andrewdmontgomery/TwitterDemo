@@ -28,19 +28,6 @@ class TweetTableViewCell: UITableViewCell {
             tweetTextLabel.text = tweet?.text
             dateLabel.text = tweet?.createdAtString
             
-            if tweet?.retweeted != nil {
-                retweeterNameLabel.text = tweet?.retweetedUser?.name
-                retweetedLabel.text = "retweeted"
-                retweeterNameLabel.hidden = false
-                retweetedLabel.hidden = false
-                retweeterImageView.hidden = false
-            } else {
-                retweeterNameLabel.text = nil
-                retweetedLabel.text = nil
-                retweeterNameLabel.hidden = true
-                retweetedLabel.hidden = true
-                retweeterImageView.hidden = true
-            }
         }
     }
     
@@ -52,10 +39,6 @@ class TweetTableViewCell: UITableViewCell {
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var tweetTextLabel: UILabel!
 
-    @IBOutlet weak var retweeterNameLabel: UILabel!
-    @IBOutlet weak var retweetedLabel: UILabel!
-    @IBOutlet weak var retweeterImageView: UIImageView!
-    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
