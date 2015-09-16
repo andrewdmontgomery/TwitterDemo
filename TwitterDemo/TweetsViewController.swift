@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, TweetDetailViewControllerDelegate {
 
     var tweets: [Tweet]?
     var refreshControl: UIRefreshControl!
@@ -83,6 +83,28 @@ class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDa
 //        newTweetViewController.dismissViewControllerAnimated(true, completion: nil)
 //    }
     
+    // MARK: - TweetDetailViewControllerDelegate
+    func tweetDetailViewController(tweetDetailViewController: TweetDetailViewController, didToggleFavoriteForTweet tweet: Tweet?, withParams params: [String : AnyObject]) {
+        var returnTweet: Tweet?
+        if tweet != nil {
+            returnTweet = tweet!
+            
+            if tweet!.favorited == false {
+                TwitterClient.sharedInstance.postFavoriteWithParams(params, completion: { (tweet, error) -> () in
+                    returnTweet!.favorited = true
+                    tweetDetailViewController.tweet = returnTweet!
+                    //tweetDetailViewController.updateFavoritedButtonImage()
+                })
+            } else if tweet?.favorited == true {
+                TwitterClient.sharedInstance.destroyFavoriteWithParams(params, completion: { (tweet, error) -> () in
+                    returnTweet!.favorited = false
+                    tweetDetailViewController.tweet = returnTweet!
+                    //tweetDetailViewController.updateFavoritedButtonImage()
+                })
+            }
+        }
+    }
+    
     // MARK: - UITableView
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if tweets != nil {
@@ -97,6 +119,8 @@ class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         let tweet = tweets![indexPath.row]
         cell.tweet = tweet
+        
+        
         
         return cell
     }
@@ -126,6 +150,7 @@ class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDa
             
             let destinationViewController = segue.destinationViewController as! TweetDetailViewController
             destinationViewController.tweet = tweet
+            destinationViewController.delegate = self
         }
     }
     

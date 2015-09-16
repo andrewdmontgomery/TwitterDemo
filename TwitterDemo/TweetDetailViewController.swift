@@ -8,9 +8,20 @@
 
 import UIKit
 
+@objc protocol TweetDetailViewControllerDelegate {
+    optional func tweetDetailViewController(tweetDetailViewController: TweetDetailViewController, didToggleFavoriteForTweet tweet: Tweet?, withParams params: [String:AnyObject])
+}
+
 class TweetDetailViewController: UIViewController {
     
-    var tweet: Tweet?
+    var tweet: Tweet? {
+        didSet {
+            if favoritedButton != nil {
+                updateFavoritedButtonImage()
+            }
+        }
+    }
+    weak var delegate: TweetDetailViewControllerDelegate?
     
     private var favoriteButtonImage: UIImage?
     
@@ -73,17 +84,7 @@ class TweetDetailViewController: UIViewController {
     @IBAction func onToggleFavorite(sender: AnyObject) {
         if tweet != nil {
             var params = ["id" : tweet!.tweetID!]
-            if tweet!.favorited == false {
-                TwitterClient.sharedInstance.postFavoriteWithParams(params, completion: { (tweet, error) -> () in
-                    self.tweet?.favorited = true
-                    self.updateFavoritedButtonImage()
-                })
-            } else if tweet?.favorited == true {
-                TwitterClient.sharedInstance.destroyFavoriteWithParams(params, completion: { (tweet, error) -> () in
-                    self.tweet?.favorited = false
-                    self.updateFavoritedButtonImage()
-                })
-            }
+            delegate?.tweetDetailViewController!(self, didToggleFavoriteForTweet: tweet!, withParams: params)
         }
     }
     
