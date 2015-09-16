@@ -9,8 +9,9 @@
 import UIKit
 
 @objc protocol NewTweetViewControllerDelegate {
-    optional func newTweetViewController(newTweetViewController: NewTweetViewController, didPostStatusWithParams: [String:AnyObject])
+    optional func newTweetViewController(newTweetViewController: NewTweetViewController, didPostStatusWithParams params: [String:AnyObject])
     optional func newTweetViewControllerDidCancelStatus(newTweetViewController: NewTweetViewController)
+    optional func newTweetViewController(newTweetViewController: NewTweetViewController, didPostRetweetWithParams params: [String:AnyObject])
 }
 
 class NewTweetViewController: UIViewController {
@@ -22,6 +23,8 @@ class NewTweetViewController: UIViewController {
     
     weak var delegate: NewTweetViewControllerDelegate?
     var user: User?
+    //var replyToScreenNameString: String?
+    var replyToTweet: Tweet?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,6 +34,12 @@ class NewTweetViewController: UIViewController {
         if let profileImageURLString = user?.profileImageUrl {
             let profileImageURL = NSURL(string: profileImageURLString)
             profileImageView.setImageWithURL(profileImageURL)
+        }
+        
+        if replyToTweet != nil {
+            if let screenName = replyToTweet?.user?.screenname {
+                tweetTextView.text = "@\(screenName) "
+            }
         }
         
         tweetTextView.becomeFirstResponder()
@@ -55,10 +64,18 @@ class NewTweetViewController: UIViewController {
     
     @IBAction func onSendTweet(sender: AnyObject) {
         if count(tweetTextView.text) > 0 {
-            var statusParams = ["status" : tweetTextView.text]
-            TwitterClient.sharedInstance.postStatusWithParams(statusParams, completion: { (tweet, error) -> () in
-                self.dismissViewControllerAnimated(true, completion: nil)
-            })
+            if replyToTweet == nil {
+                var statusParams = ["status" : tweetTextView.text]
+                TwitterClient.sharedInstance.postStatusWithParams(statusParams, completion: { (tweet, error) -> () in
+                    self.dismissViewControllerAnimated(true, completion: nil)
+                })
+            } else {
+                let tweetID = replyToTweet?.tweetID
+                var statusParams = ["id" : tweetID!]
+                TwitterClient.sharedInstance.postRetweetWithParams(statusParams, completion: { (tweet, error) -> () in
+                    self.dismissViewControllerAnimated(true, completion: nil)
+                })
+            }
         }
     }
 

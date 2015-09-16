@@ -40,7 +40,8 @@ class TwitterClient: BDBOAuth1RequestOperationManager {
     func postStatusWithParams(params: NSDictionary?, completion: (tweet: Tweet?, error: NSError?) -> ()) {
         POST("1.1/statuses/update.json", parameters: params, success: { (operation: AFHTTPRequestOperation!, response: AnyObject!) -> Void in
             println("post status: \(response)")
-            completion(tweet: nil, error: nil)
+            var tweet = Tweet(dictionary: response as! NSDictionary)
+            completion(tweet: tweet, error: nil)
         }) { (operation: AFHTTPRequestOperation!, error: NSError!) -> Void in
             println("error posting status")
             completion(tweet: nil, error: error)
@@ -66,6 +67,31 @@ class TwitterClient: BDBOAuth1RequestOperationManager {
                 completion(tweet: nil, error: error)
         }
     }
+
+    func postRetweetWithParams(params: NSDictionary?, completion: (tweet: Tweet?, error: NSError?) -> ()) {
+        let tweetID = params?.objectForKey("id") as? Int
+        if tweetID != nil {
+            POST("1.1/statuses/retweet/\(tweetID!).json", parameters: params, success: { (operation: AFHTTPRequestOperation!, response: AnyObject!) -> Void in
+                println("post retweet status: \(response)")
+                var tweet = Tweet(dictionary: response as! NSDictionary)
+                completion(tweet: tweet, error: nil)
+                }) { (operation: AFHTTPRequestOperation!, error: NSError!) -> Void in
+                    println("error posting retweet status: \(error)")
+                    completion(tweet: nil, error: error)
+            }
+
+        }
+    }
+    
+//    func postRetweetWithParams(params: NSDictionary?, completion: (tweet: Tweet?, error: NSError?) -> ()) {
+//        POST("1.1/statuses/retweet/:id.json", parameters: params, success: { (operation: AFHTTPRequestOperation!, response: AnyObject!) -> Void in
+//            println("post retweet status: \(response)")
+//            completion(tweet: nil, error: nil)
+//        }) { (operation: AFHTTPRequestOperation!, error: NSError!) -> Void in
+//                println("error posting retweet status: \(error)")
+//                completion(tweet: nil, error: error)
+//        }
+//    }
     
     func loginWithCompletion(completion: (user: User?, error: NSError?) -> ()) {
         loginCompletion = completion

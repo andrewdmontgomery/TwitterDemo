@@ -60,15 +60,21 @@ class TweetDetailViewController: UIViewController {
     }
     
 
-    /*
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        let identifier = segue.identifier
+        
+        if identifier == "ReplyTweetCommonSegueIdentifier" {
+            let navigationController = segue.destinationViewController as! UINavigationController
+            let destinationViewController = navigationController.viewControllers[0] as! NewTweetViewController
+            destinationViewController.user = User.currentUser
+            destinationViewController.replyToTweet = tweet
+        }
+
+
     }
-    */
 
     func updateFavoritedButtonImage() {
         if favoritedButton != nil {
@@ -89,9 +95,19 @@ class TweetDetailViewController: UIViewController {
     }
     
     @IBAction func onRetweet(sender: AnyObject) {
+        if let tweetID = tweet?.tweetID {
+            // this should be done somewhere else.
+            let params = ["id":tweetID]
+            println("retweet params: \(params)")
+            TwitterClient.sharedInstance.postRetweetWithParams(params, completion: { (tweet, error) -> () in
+                self.dismissViewControllerAnimated(true, completion: nil)
+            })
+        }
+        
     }
 
     @IBAction func onReply(sender: AnyObject) {
+        performSegueWithIdentifier("ReplyTweetCommonSegueIdentifier", sender: self)
     }
  
     

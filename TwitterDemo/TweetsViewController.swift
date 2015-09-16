@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, TweetDetailViewControllerDelegate {
+class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, TweetDetailViewControllerDelegate, NewTweetViewControllerDelegate, TweetTableViewCellDelegate {
 
     var tweets: [Tweet]?
     var refreshControl: UIRefreshControl!
@@ -29,7 +29,7 @@ class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         let dummyTableVC = UITableViewController()
         dummyTableVC.tableView = tableView
         dummyTableVC.refreshControl = refreshControl
-        
+                
         // Do any additional setup after loading the view.
         fetchTweets()
     }
@@ -68,17 +68,32 @@ class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     // MARK: - NewTweetViewControllerDelegate
-//    func newTweetViewController(newTweetViewController: NewTweetViewController, didPostStatusWithParams: [String:AnyObject]) {
+//    func newTweetViewController(newTweetViewController: NewTweetViewController, didPostStatusWithParams params: [String:AnyObject]) {
 //        if count(newTweetViewController.tweetTextView.text) > 0 {
-//            var statusParams = ["status" : newTweetViewController.tweetTextView.text]
-//            TwitterClient.sharedInstance.postStatusWithParams(didPostStatusWithParams, completion: { (tweet, error) -> () in
-//                
-//            })
-//            newTweetViewController.dismissViewControllerAnimated(true, completion: nil)
+//            let status = params["status"] as? String
+//            if status != nil {
+//                TwitterClient.sharedInstance.postStatusWithParams(params, completion: { (tweet, error) -> () in
+//                    if tweet != nil {
+//                        self.tweets?.insert(tweet!, atIndex: 0)
+//                        newTweetViewController.dismissViewControllerAnimated(true, completion: nil)
+//                    }
+//                })
+//            }
 //        }
-//
 //    }
-//    
+    
+    func newTweetViewController(newTweetViewController: NewTweetViewController, didPostRetweetWithParams params: [String : AnyObject]) {
+        if count(newTweetViewController.tweetTextView.text) > 0 {
+            let id = params["id"] as? Int
+            if id != nil {
+                TwitterClient.sharedInstance.postRetweetWithParams(params, completion: { (tweet, error) -> () in
+                    self.tweets?.insert(tweet!, atIndex: 0)
+                    newTweetViewController.dismissViewControllerAnimated(true, completion: nil)
+                })
+            }
+        }
+    }
+    
 //    func newTweetViewControllerDidCancelStatus(newTweetViewController: NewTweetViewController) {
 //        newTweetViewController.dismissViewControllerAnimated(true, completion: nil)
 //    }
@@ -105,6 +120,32 @@ class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         }
     }
     
+    // MARK: - TweetTableViewCellDelegate
+    func tweetTableViewCell(tweetTableViewCell: TweetTableViewCell, didToggleFavoriteForTweet tweet: Tweet?, withParams params: [String : Int]) {
+        var returnTweet: Tweet?
+        if tweet != nil {
+            returnTweet = tweet!
+            
+            if tweet!.favorited == false {
+                TwitterClient.sharedInstance.postFavoriteWithParams(params, completion: { (tweet, error) -> () in
+                    returnTweet!.favorited = true
+                    tweetTableViewCell.tweet = returnTweet!
+                    //tweetDetailViewController.updateFavoritedButtonImage()
+                })
+            } else if tweet?.favorited == true {
+                TwitterClient.sharedInstance.destroyFavoriteWithParams(params, completion: { (tweet, error) -> () in
+                    returnTweet!.favorited = false
+                    tweetTableViewCell.tweet = returnTweet!
+                    //tweetDetailViewController.updateFavoritedButtonImage()
+                })
+            }
+        }
+    }
+    
+    func tweetTableViewCell(tweetTableViewCell: TweetTableViewCell, didTapReplytForTweet tweet: Tweet?) {
+        performSegueWithIdentifier("ReplyTweetSegueIdentifier", sender: self)
+    }
+    
     // MARK: - UITableView
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if tweets != nil {
@@ -120,7 +161,7 @@ class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         let tweet = tweets![indexPath.row]
         cell.tweet = tweet
         
-        
+        cell.delegate = self
         
         return cell
     }
@@ -152,6 +193,15 @@ class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDa
             destinationViewController.tweet = tweet
             destinationViewController.delegate = self
         }
+        
+        if identifier == "ReplyTweetSegueIdentifier" {
+            let navigationController = segue.destinationViewController as! UINavigationController
+            let destinationViewController = navigationController.viewControllers[0] as! NewTweetViewController
+            destinationViewController.user = User.currentUser
+            // Going to have to refactor to get this working
+            //destinationViewController.replyToTweet = tweet
+        }
+
     }
     
 

@@ -68,7 +68,7 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="GitHub" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kTA-ar-3qO">
                                                     <rect key="frame" x="66" y="4" width="47" height="17"/>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="GitHub" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YLr-ba-22D">
@@ -86,7 +86,7 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="249" verticalCompressionResistancePriority="749" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lmi-ns-Y4E">
                                                     <rect key="frame" x="66" y="21" width="36" height="116"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TVA-3d-HMz">
@@ -100,6 +100,7 @@
                                                     </state>
                                                     <connections>
                                                         <action selector="onReply:" destination="fLU-9b-KEn" eventType="touchUpInside" id="yLW-IG-esx"/>
+                                                        <segue destination="Nlo-Ox-znE" kind="presentation" identifier="ReplyTweetSegueIdentifier" id="fsy-6M-nhe"/>
                                                     </connections>
                                                 </button>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wb6-EX-WUa">
@@ -176,6 +177,7 @@
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="dateLabel" destination="obo-Ce-Quz" id="YjK-8w-VS2"/>
+                                            <outlet property="favoritedButton" destination="LUO-3K-OKH" id="rxg-P8-bVd"/>
                                             <outlet property="nameLabel" destination="kTA-ar-3qO" id="yQf-hd-uKo"/>
                                             <outlet property="profileImageView" destination="Mqo-KZ-7BS" id="Ej1-qP-RPy"/>
                                             <outlet property="screenNameLabel" destination="YLr-ba-22D" id="iNc-B6-44A"/>
@@ -236,7 +238,7 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="GitHub" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TlU-o6-DtZ">
                                 <rect key="frame" x="78" y="72" width="47" height="17"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="GitHub" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="u6h-kD-q6l">
@@ -284,7 +286,7 @@
                                 <action selector="onCancelTweet:" destination="54o-fX-mHA" id="ZMr-tx-Gzb"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="Tweet" id="yWm-SH-67H">
+                        <barButtonItem key="rightBarButtonItem" title="Send" id="yWm-SH-67H">
                             <connections>
                                 <action selector="onSendTweet:" destination="54o-fX-mHA" id="bnk-Gl-eWB"/>
                             </connections>
@@ -360,7 +362,7 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="GitHub" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Q1O-L1-kYc">
                                 <rect key="frame" x="78" y="72" width="47" height="17"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="GitHub" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fcl-ZD-8ak">
@@ -372,7 +374,7 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qRq-Nf-QIK">
                                 <rect key="frame" x="20" y="130" width="560" height="17"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9d7-5D-eMx">
@@ -401,8 +403,8 @@
                                 </state>
                                 <variation key="default">
                                     <mask key="constraints">
-                                        <exclude reference="z9D-X4-80m"/>
                                         <exclude reference="NNf-VD-kp9"/>
+                                        <exclude reference="z9D-X4-80m"/>
                                     </mask>
                                 </variation>
                                 <connections>
@@ -422,8 +424,8 @@
                                 </state>
                                 <variation key="default">
                                     <mask key="constraints">
-                                        <exclude reference="j1Z-lU-ih3"/>
                                         <exclude reference="ejf-vl-2dB"/>
+                                        <exclude reference="j1Z-lU-ih3"/>
                                     </mask>
                                 </variation>
                                 <connections>
@@ -466,13 +468,20 @@
                             </mask>
                         </variation>
                     </view>
-                    <navigationItem key="navigationItem" title="Tweet" id="UG9-4i-6kU"/>
+                    <navigationItem key="navigationItem" title="Tweet" id="UG9-4i-6kU">
+                        <barButtonItem key="rightBarButtonItem" title="Reply" id="kd9-Vq-mHd">
+                            <connections>
+                                <action selector="onReply:" destination="7m7-6X-Rnp" id="hfy-wn-pME"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="favoritedButton" destination="7Lv-p3-aMR" id="OWU-oM-IFg"/>
                         <outlet property="nameLabel" destination="Q1O-L1-kYc" id="xW3-Je-9yY"/>
                         <outlet property="profileImageView" destination="pR5-7M-a38" id="Nck-08-Aqq"/>
                         <outlet property="screenNameLabel" destination="fcl-ZD-8ak" id="4Ou-bL-7SN"/>
                         <outlet property="tweetTextLabel" destination="qRq-Nf-QIK" id="5zf-do-f1t"/>
+                        <segue destination="Nlo-Ox-znE" kind="presentation" identifier="ReplyTweetCommonSegueIdentifier" id="8cZ-Ax-Z3l"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1Ab-MR-08I" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -485,4 +494,7 @@
         <image name="reply" width="16" height="16"/>
         <image name="retweet" width="19" height="16"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="fsy-6M-nhe"/>
+    </inferredMetricsTieBreakers>
 </document>
