@@ -83,7 +83,7 @@ class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDa
 //    }
     
     func newTweetViewController(newTweetViewController: NewTweetViewController, didPostRetweetWithParams params: [String : AnyObject]) {
-        if count(newTweetViewController.tweetTextView.text) > 0 {
+        if newTweetViewController.tweetTextView.text.characters.count > 0 {
             let id = params["id"] as? Int
             if id != nil {
                 TwitterClient.sharedInstance.postRetweetWithParams(params, completion: { (tweet, error) -> () in

@@ -103,7 +103,7 @@ class TweetTableViewCell: UITableViewCell {
         if let tweetID = tweet?.tweetID {
             // this should be done somewhere else.
             let params = ["id":tweetID]
-            println("retweet params: \(params)")
+            print("retweet params: \(params)")
             TwitterClient.sharedInstance.postRetweetWithParams(params, completion: { (tweet, error) -> () in
                 // nothing to do here yet
             })

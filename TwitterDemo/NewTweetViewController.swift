@@ -63,15 +63,15 @@ class NewTweetViewController: UIViewController {
     */
     
     @IBAction func onSendTweet(sender: AnyObject) {
-        if count(tweetTextView.text) > 0 {
+        if tweetTextView.text.characters.count > 0 {
             if replyToTweet == nil {
-                var statusParams = ["status" : tweetTextView.text]
+                let statusParams = ["status" : tweetTextView.text]
                 TwitterClient.sharedInstance.postStatusWithParams(statusParams, completion: { (tweet, error) -> () in
                     self.dismissViewControllerAnimated(true, completion: nil)
                 })
             } else {
                 let tweetID = replyToTweet?.tweetID
-                var statusParams = ["id" : tweetID!]
+                let statusParams = ["id" : tweetID!]
                 TwitterClient.sharedInstance.postRetweetWithParams(statusParams, completion: { (tweet, error) -> () in
                     self.dismissViewControllerAnimated(true, completion: nil)
                 })

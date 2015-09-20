@@ -42,12 +42,12 @@ class Tweet: NSObject {
         
         // NSDateFormatter is very expensive.
         // Consider making it static, and setting 'createdAt' lazily
-        var formatter = NSDateFormatter()
+        let formatter = NSDateFormatter()
         formatter.dateFormat = "EEE MMM d HH:mm:ss Z y"
         createdAt = formatter.dateFromString(createAtStringOriginal!)
         
         if createdAt != nil {
-            var shortFormatter = NSDateFormatter()
+            let shortFormatter = NSDateFormatter()
             shortFormatter.dateFormat = "M/d/yy"
             createdAtString = shortFormatter.stringFromDate(createdAt!)
         }

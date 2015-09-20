@@ -44,7 +44,7 @@ class TweetDetailViewController: UIViewController {
                 profileImageView.setImageWithURL(profileImageURL)
             }
             
-            println("favorited: \(tweet!.favorited)")
+            print("favorited: \(tweet!.favorited)")
             
             
             
@@ -89,7 +89,7 @@ class TweetDetailViewController: UIViewController {
     
     @IBAction func onToggleFavorite(sender: AnyObject) {
         if tweet != nil {
-            var params = ["id" : tweet!.tweetID!]
+            let params = ["id" : tweet!.tweetID!]
             delegate?.tweetDetailViewController!(self, didToggleFavoriteForTweet: tweet!, withParams: params)
         }
     }
@@ -98,7 +98,7 @@ class TweetDetailViewController: UIViewController {
         if let tweetID = tweet?.tweetID {
             // this should be done somewhere else.
             let params = ["id":tweetID]
-            println("retweet params: \(params)")
+            print("retweet params: \(params)")
             TwitterClient.sharedInstance.postRetweetWithParams(params, completion: { (tweet, error) -> () in
                 self.dismissViewControllerAnimated(true, completion: nil)
             })
