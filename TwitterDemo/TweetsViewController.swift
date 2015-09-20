@@ -57,15 +57,15 @@ class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         User.currentUser?.logout()
     }
     
-    @IBAction func postTweetStatus(segue: UIStoryboardSegue) {
-        dismissViewControllerAnimated(true, completion: nil)
-        let sourceViewController = segue.sourceViewController as! NewTweetViewController
-        
-    }
-    
-    @IBAction func cancelTweetStatus(segue: UIStoryboardSegue) {
-        dismissViewControllerAnimated(true, completion: nil)
-    }
+//    @IBAction func postTweetStatus(segue: UIStoryboardSegue) {
+//        dismissViewControllerAnimated(true, completion: nil)
+//        let sourceViewController = segue.sourceViewController as! NewTweetViewController
+//        
+//    }
+//    
+//    @IBAction func cancelTweetStatus(segue: UIStoryboardSegue) {
+//        dismissViewControllerAnimated(true, completion: nil)
+//    }
     
     // MARK: - NewTweetViewControllerDelegate
 //    func newTweetViewController(newTweetViewController: NewTweetViewController, didPostStatusWithParams params: [String:AnyObject]) {

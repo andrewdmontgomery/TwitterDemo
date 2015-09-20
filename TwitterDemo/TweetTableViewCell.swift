@@ -21,9 +21,10 @@ class TweetTableViewCell: UITableViewCell {
         didSet {
             nameLabel.text = tweet?.user?.name
             screenNameLabel.text = tweet?.user?.screenname
-            var profileImageURL: NSURL?
             let profileImageURLString = tweet?.user?.profileImageUrl
+            //print("profileImageURL: \(profileImageURLString)")
             if profileImageURLString != nil {
+                print("profileImageURL: \(profileImageURLString)")
                 let profileImageURL = NSURL(string: profileImageURLString!)
                 if profileImageURL != nil {
                     profileImageView.setImageWithURL(profileImageURL)
