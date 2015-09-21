@@ -12,24 +12,52 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    var storyboard = UIStoryboard(name: "Main", bundle: nil)
+    static let storyboard = UIStoryboard(name: "Main", bundle: nil)
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "userDidLogout", name: userDidLogoutNotification, object: nil)
         
-        if User.currentUser != nil {
-            // Go to the logged in screen
-            print("Current user detected: \(User.currentUser?.name)")
-            let vc = storyboard.instantiateViewControllerWithIdentifier("TweetsNavigationControlller") 
-            window?.rootViewController = vc
-        }
+        let sharedCache = NSURLCache(memoryCapacity: 2 * 1024 * 1024, diskCapacity: 100 * 1024 * 1024, diskPath: nil)
+        NSURLCache.setSharedURLCache(sharedCache)
+        
+//        let hamburgerViewController = window?.rootViewController as! HamburgerViewController
+//        
+//        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+//        let menuViewController = storyboard.instantiateViewControllerWithIdentifier("MenuViewController") as! MenuViewController
+//        
+//        menuViewController.hamburgerViewController = hamburgerViewController
+//        hamburgerViewController.menuViewController = menuViewController
+        
+        
+        
+        // We're going to need this for TwitterDemo to work
+//        if User.currentUser != nil {
+//            // Go to the logged in screen
+//            print("Current user detected: \(User.currentUser?.name)")
+//            let vc = storyboard.instantiateViewControllerWithIdentifier("TweetsNavigationControlller") 
+//            window?.rootViewController = vc
+//        }
+        
+//        if User.currentUser != nil {
+//            let hamburgerViewController = storyboard.instantiateViewControllerWithIdentifier("HamburgerViewController") as! HamburgerViewController
+//            let menuViewController = storyboard.instantiateViewControllerWithIdentifier("MenuViewController") as! MenuViewController
+//            
+//            menuViewController.hamburgerViewController = hamburgerViewController
+//            hamburgerViewController.menuViewController = menuViewController
+//            
+//            window?.rootViewController = hamburgerViewController
+//        }
+        
+        setupContainerViewController()
+        
         return true
     }
 
     func userDidLogout() {
-        let vc = storyboard.instantiateInitialViewController()
+        //let vc = storyboard.instantiateInitialViewController()
+        let vc = AppDelegate.storyboard.instantiateInitialViewController()
         window?.rootViewController = vc
         
     }
@@ -62,5 +90,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         return true
     }
+    
+    func setupContainerViewController() {
+        let hamburgerViewController = AppDelegate.storyboard.instantiateViewControllerWithIdentifier("HamburgerViewController") as! HamburgerViewController
+        let menuViewController = AppDelegate.storyboard.instantiateViewControllerWithIdentifier("MenuViewController") as! MenuViewController
+        
+        menuViewController.hamburgerViewController = hamburgerViewController
+        hamburgerViewController.menuViewController = menuViewController
+        
+        if User.currentUser != nil {
+            window?.rootViewController = hamburgerViewController
+        }
+
+    }
+    
 }
 

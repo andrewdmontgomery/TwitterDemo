@@ -24,7 +24,6 @@ class TweetTableViewCell: UITableViewCell {
             let profileImageURLString = tweet?.user?.profileImageUrl
             //print("profileImageURL: \(profileImageURLString)")
             if profileImageURLString != nil {
-                print("profileImageURL: \(profileImageURLString)")
                 let profileImageURL = NSURL(string: profileImageURLString!)
                 if profileImageURL != nil {
                     profileImageView.setImageWithURL(profileImageURL)

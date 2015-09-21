@@ -21,13 +21,25 @@ class ViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "hamburgerSegue" {
+            let hamburgerViewController = segue.destinationViewController as! HamburgerViewController
+            
+            //let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let menuViewController = AppDelegate.storyboard.instantiateViewControllerWithIdentifier("MenuViewController") as! MenuViewController
+
+            menuViewController.hamburgerViewController = hamburgerViewController
+            hamburgerViewController.menuViewController = menuViewController
+        }
+    }
 
     @IBAction func onLogin(sender: AnyObject) {
         TwitterClient.sharedInstance.loginWithCompletion() {
             (user:User?, error: NSError?) in
             if user != nil {
                 // perform segue
-                self.performSegueWithIdentifier("loginSegue", sender: self)
+                self.performSegueWithIdentifier("hamburgerSegue", sender: self)
             } else {
                 // handle login error
             }
