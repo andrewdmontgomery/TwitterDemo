@@ -9,7 +9,31 @@
 import UIKit
 
 class ProfileTableViewCell: UITableViewCell {
-
+    
+    var user: User? {
+        didSet {
+            if user != nil {
+                if let statusesCountInt = user!.statusesCount {
+                    tweetCount.text = "\(statusesCountInt)"
+                } else {
+                    tweetCount.text = "0"
+                }
+                
+                if let followingCountInt = user!.followingCount {
+                    followingCount.text = "\(followingCountInt)"
+                } else {
+                    followingCount.text = "0"
+                }
+                
+                if let followersCountInt = user!.followersCount {
+                    followersCount.text = "\(followersCountInt)"
+                } else {
+                    followersCount.text = "0"
+                }
+            }
+        }
+    }
+    
     @IBOutlet weak var tweetCount: UILabel!
     @IBOutlet weak var followingCount: UILabel!
     @IBOutlet weak var followersCount: UILabel!
@@ -17,23 +41,7 @@ class ProfileTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        if let statusesCountInt = User.currentUser!.statusesCount {
-            tweetCount.text = "\(statusesCountInt)"
-        } else {
-            tweetCount.text = "0"
-        }
-        
-        if let followingCountInt = User.currentUser!.followingCount {
-            followingCount.text = "\(followingCountInt)"
-        } else {
-            followingCount.text = "0"
-        }
-        
-        if let followersCountInt = User.currentUser!.followersCount {
-            followersCount.text = "\(followersCountInt)"
-        } else {
-            followersCount.text = "0"
-        }
+//        print(user)
     }
 
     override func setSelected(selected: Bool, animated: Bool) {

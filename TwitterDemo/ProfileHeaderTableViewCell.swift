@@ -10,6 +10,34 @@ import UIKit
 
 class ProfileHeaderTableViewCell: UITableViewCell {
 
+    var user: User? {
+        didSet {
+            if user != nil {
+                nameLabel.text = user!.name
+                screenNameLabel.text = user!.screenname
+                
+                if let profileBackgroundImageURLString = user!.profileBackgroundImageUrl {
+                    let profileBackgroundImageURL = NSURL(string: profileBackgroundImageURLString)
+                    if profileBackgroundImageURL != nil {
+                        profileBackgroundImageView.setImageWithURL(profileBackgroundImageURL)
+                    }
+                }
+                
+                if let profileImageURLString = user!.profileImageUrl {
+                    let profileImageURL = NSURL(string: profileImageURLString)
+                    if profileImageURL != nil {
+                        profileImageView.setImageWithURL(profileImageURL)
+                    }
+                }
+                
+                print("name: \(nameLabel.text)")
+                print("screenName: \(screenNameLabel.text)")
+                print("profileImageView: \(profileImageView)")
+                print("profileBackgroundImageView: \(profileBackgroundImageView)")
+            }
+        }
+    }
+    
     @IBOutlet weak var profileBackgroundImageView: UIImageView!
     @IBOutlet weak var profileImageView: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
@@ -21,27 +49,7 @@ class ProfileHeaderTableViewCell: UITableViewCell {
         profileImageView.layer.cornerRadius = 5
         profileImageView.clipsToBounds = true
         
-        nameLabel.text = User.currentUser?.name
-        screenNameLabel.text = User.currentUser?.screenname
 
-        if let profileBackgroundImageURLString = User.currentUser!.profileBackgroundImageUrl {
-            let profileBackgroundImageURL = NSURL(string: profileBackgroundImageURLString)
-            if profileBackgroundImageURL != nil {
-                profileBackgroundImageView.setImageWithURL(profileBackgroundImageURL)
-            }
-        }
-        
-        if let profileImageURLString = User.currentUser!.profileImageUrl {
-            let profileImageURL = NSURL(string: profileImageURLString)
-            if profileImageURL != nil {
-                profileImageView.setImageWithURL(profileImageURL)
-            }
-        }
-        
-        print("name: \(nameLabel.text)")
-        print("screenName: \(screenNameLabel.text)")
-        print("profileImageView: \(profileImageView)")
-        print("profileBackgroundImageView: \(profileBackgroundImageView)")
     }
 
     override func setSelected(selected: Bool, animated: Bool) {

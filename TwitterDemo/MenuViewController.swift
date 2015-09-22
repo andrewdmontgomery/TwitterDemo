@@ -83,11 +83,23 @@ class MenuViewController: UIViewController, UITableViewDataSource, UITableViewDe
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         
-        if indexPath.row < 3 {
+        switch indexPath.row {
+        case 0:
+//            let profileNavController = profileNavigationController as! UINavigationController
+//            let profileViewController = profileNavController.viewControllers.first as! ProfileViewController
+//            profileViewController.user = User.currentUser
+            //hamburgerViewController.contentViewController = profileViewController
             hamburgerViewController.contentViewController = viewControllers[indexPath.row]
-        } else {
+        case 3:
             User.currentUser?.logout()
+        default:
+            hamburgerViewController.contentViewController = viewControllers[indexPath.row]
         }
+//        if indexPath.row < 3 {
+//            hamburgerViewController.contentViewController = viewControllers[indexPath.row]
+//        } else {
+//            User.currentUser?.logout()
+//        }
         
     }
 

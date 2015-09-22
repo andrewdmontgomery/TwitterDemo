@@ -9,7 +9,9 @@
 import UIKit
 
 class ProfileViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
-
+    
+    var user: User?
+    
     @IBOutlet weak var tableView: UITableView!
     
     override func viewDidLoad() {
@@ -21,6 +23,10 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
         tableView.estimatedSectionHeaderHeight = 150.0
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.sectionHeaderHeight = UITableViewAutomaticDimension
+        
+        if self.user == nil {
+            self.user = User.currentUser
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -50,12 +56,16 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("ProfileCell") as! ProfileTableViewCell
+
+        cell.user = self.user
         
         return cell
     }
     
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerCell = tableView.dequeueReusableCellWithIdentifier("HeaderCell") as! ProfileHeaderTableViewCell
+        
+        headerCell.user = self.user
         
         return headerCell
     }
