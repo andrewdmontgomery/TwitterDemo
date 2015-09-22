@@ -37,6 +37,18 @@ class TwitterClient: BDBOAuth1RequestOperationManager {
         })
     }
     
+    func mentionsTimeLineWithParams(params: NSDictionary?, completion: (tweets: [Tweet]?, error: NSError?) -> ()) {
+        GET("1.1/statuses/mentions_timeline.json", parameters: params, success: { (operation:AFHTTPRequestOperation!, response:AnyObject!) -> Void in
+            //println("mentions timeline: \(response)")
+            let tweets = Tweet.tweetsWithArray(response as! [NSDictionary])
+            
+            completion(tweets: tweets, error: nil)
+            }, failure: { (operation:AFHTTPRequestOperation!, error:NSError!) -> Void in
+                print("error getting mentions timeline: \(error)")
+                completion(tweets: nil, error: error)
+        })
+    }
+    
     func postStatusWithParams(params: NSDictionary?, completion: (tweet: Tweet?, error: NSError?) -> ()) {
         POST("1.1/statuses/update.json", parameters: params, success: { (operation: AFHTTPRequestOperation!, response: AnyObject!) -> Void in
             print("post status: \(response)")
@@ -117,7 +129,7 @@ class TwitterClient: BDBOAuth1RequestOperationManager {
             print("Got the access token!")
             TwitterClient.sharedInstance.requestSerializer.saveAccessToken(accessToken)
             TwitterClient.sharedInstance.GET("1.1/account/verify_credentials.json", parameters: nil, success: { (operation: AFHTTPRequestOperation!, response: AnyObject!) -> Void in
-                //println("user: \(response)")
+                print("user: \(response)")
                 let user = User(dictionary: response as! NSDictionary)
                 User.currentUser = user
                 print("user: \(user.name)")

@@ -53,9 +53,14 @@ class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         })
     }
 
-    @IBAction func onLogout(sender: AnyObject) {
-        User.currentUser?.logout()
+    
+    @IBAction func onTapMenuBarButton(sender: UIBarButtonItem) {
+        NSNotificationCenter.defaultCenter().postNotificationName(kUserDidPressMenuBarButton, object: nil)
     }
+    
+//    @IBAction func onLogout(sender: AnyObject) {
+//        User.currentUser?.logout()
+//    }
     
 //    @IBAction func postTweetStatus(segue: UIStoryboardSegue) {
 //        dismissViewControllerAnimated(true, completion: nil)

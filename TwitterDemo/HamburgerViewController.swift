@@ -9,6 +9,7 @@
 import UIKit
 
 let kContentViewPeak = CGFloat(40)
+let kUserDidPressMenuBarButton = "userDidPressMenuBarButton"
 
 class HamburgerViewController: UIViewController {
     
@@ -56,6 +57,8 @@ class HamburgerViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "userDidPressMenuBarButton", name: kUserDidPressMenuBarButton, object: nil)
 
     }
     
@@ -83,6 +86,20 @@ class HamburgerViewController: UIViewController {
                 self.view.layoutIfNeeded()
             })
         }
+    }
+    
+    func userDidPressMenuBarButton() {
+        UIView.animateWithDuration(0.2, animations: { () -> Void in
+            let currentLeftMarginConstrantConstant = self.leftMarginConstraint.constant
+            if currentLeftMarginConstrantConstant == 0 {
+                self.leftMarginConstraint.constant = self.view.frame.size.width - kContentViewPeak
+            } else {
+                self.leftMarginConstraint.constant = 0
+            }
+            self.view.layoutIfNeeded()
+        })
+
+        
         
     }
     
