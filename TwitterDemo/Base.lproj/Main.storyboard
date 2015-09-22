@@ -156,7 +156,7 @@
         <!--Profile-->
         <scene sceneID="Jvv-Rt-83G">
             <objects>
-                <viewController id="M6l-S9-4L3" customClass="ProfileViewController" customModule="TwitterDemo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ProfileViewController" id="M6l-S9-4L3" customClass="ProfileViewController" customModule="TwitterDemo" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="xHN-bB-QVI"/>
                         <viewControllerLayoutGuide type="bottom" id="NpH-U1-cUL"/>
@@ -491,8 +491,9 @@
                                             <rect key="frame" x="0.0" y="0.0" width="287" height="169"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Mqo-KZ-7BS">
+                                                <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Mqo-KZ-7BS">
                                                     <rect key="frame" x="8" y="4" width="50" height="50"/>
+                                                    <gestureRecognizers/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="50" id="0Ue-qI-LAn"/>
                                                         <constraint firstAttribute="width" constant="50" id="Y5W-FT-7dk"/>
@@ -621,6 +622,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="tableView" destination="X9o-Gc-ew0" id="Cbb-Kv-yDp"/>
+                        <segue destination="FO1-Kf-yCT" kind="push" identifier="UserProfileSegue" id="W5A-Sd-hhX"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Aup-vm-S5N" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -874,6 +876,7 @@
             <objects>
                 <navigationController storyboardIdentifier="ProfileNavigationController" automaticallyAdjustsScrollViewInsets="NO" id="FO1-Kf-yCT" sceneMemberID="viewController">
                     <toolbarItems/>
+                    <navigationItem key="navigationItem" id="d7D-Kg-cej"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="Iic-ZX-Qf6">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>

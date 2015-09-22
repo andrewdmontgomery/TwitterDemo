@@ -151,6 +151,17 @@ class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         performSegueWithIdentifier("ReplyTweetSegueIdentifier", sender: self)
     }
     
+    func tweetTableViewCell(tweetTableViewCell: TweetTableViewCell, didTapProfileImageViewWithGesture gesture: UITapGestureRecognizer) {
+        let indexPath = tableView.indexPathForCell(tweetTableViewCell)
+        let profileViewController = AppDelegate.storyboard.instantiateViewControllerWithIdentifier("ProfileViewController") as! ProfileViewController
+        profileViewController.user = tweets![indexPath!.row].user
+        
+        self.navigationController?.pushViewController(profileViewController, animated: true)
+        //profileViewController.navigationItem.leftBarButtonItem?.title = "TEST"
+        profileViewController.navigationItem.leftBarButtonItem?.image = nil
+        //profileViewController.navigationItem.leftBarButtonItem.
+    }
+    
     // MARK: - UITableView
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if tweets != nil {

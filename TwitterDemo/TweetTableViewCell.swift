@@ -13,6 +13,7 @@ let tweetTableViewCellReuseIdentifier = "TweetCell"
 @objc protocol TweetTableViewCellDelegate {
     optional func tweetTableViewCell(tweetTableViewCell: TweetTableViewCell, didToggleFavoriteForTweet tweet: Tweet?, withParams params: [String:Int])
     optional func tweetTableViewCell(tweetTableViewCell: TweetTableViewCell, didTapReplyForTweet tweet: Tweet?)
+    optional func tweetTableViewCell(tweetTableViewCell: TweetTableViewCell, didTapProfileImageViewWithGesture gesture: UITapGestureRecognizer)
 }
 
 class TweetTableViewCell: UITableViewCell {
@@ -29,6 +30,10 @@ class TweetTableViewCell: UITableViewCell {
                     profileImageView.setImageWithURL(profileImageURL)
                 }
             }
+            
+            let tapGesture = UITapGestureRecognizer(target: self, action: "onTapProfileImageView:")
+            profileImageView.addGestureRecognizer(tapGesture)
+            
             //dateLabel.text = tweet?.createdAtString
             tweetTextLabel.text = tweet?.text
             dateLabel.text = tweet?.createdAtString
@@ -95,6 +100,9 @@ class TweetTableViewCell: UITableViewCell {
         }
     }
 
+    @IBAction func onTapProfileImageView(gesture: UITapGestureRecognizer) {
+        delegate?.tweetTableViewCell!(self, didTapProfileImageViewWithGesture: gesture)
+    }
     
     @IBAction func onReply(sender: AnyObject) {
     }
