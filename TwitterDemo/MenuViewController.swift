@@ -16,6 +16,7 @@ class MenuViewController: UIViewController, UITableViewDataSource, UITableViewDe
     
     private var profileNavigationController: UIViewController!
     private var tweetsNavigationController: UIViewController!
+    private var mentionsNavigationController: UIViewController!
     private var loginViewController: UIViewController!
     
     var viewControllers: [UIViewController] = []
@@ -30,12 +31,14 @@ class MenuViewController: UIViewController, UITableViewDataSource, UITableViewDe
         tableView.estimatedRowHeight = 120.0
         tableView.rowHeight = UITableViewAutomaticDimension
         
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        profileNavigationController = storyboard.instantiateViewControllerWithIdentifier("ProfileNavigationController")
-        tweetsNavigationController = storyboard.instantiateViewControllerWithIdentifier("TweetsNavigationControlller")
+        //let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        profileNavigationController = AppDelegate.storyboard.instantiateViewControllerWithIdentifier("ProfileNavigationController")
+        tweetsNavigationController = AppDelegate.storyboard.instantiateViewControllerWithIdentifier("TweetsNavigationControlller")
+        mentionsNavigationController = AppDelegate.storyboard.instantiateViewControllerWithIdentifier("MentionsNavigationController")
         
         viewControllers.append(profileNavigationController)
         viewControllers.append(tweetsNavigationController)
+        viewControllers.append(mentionsNavigationController)
         
         hamburgerViewController.contentViewController = tweetsNavigationController
     }
@@ -64,6 +67,12 @@ class MenuViewController: UIViewController, UITableViewDataSource, UITableViewDe
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(kMenuTableViewCellIdentifier) as! MenuTableViewCell
         
+//        let navController = viewControllers[indexPath.row] as! UINavigationController
+//        let viewController = navController.viewControllers.first
+//        if let cellTitle = viewController?.title {
+//            cell.menuTitleLabel.text = cellTitle
+//        }
+        
         let titles = ["Profile", "Timeline", "Mentions", "Sign Out"]
         cell.menuTitleLabel.text = titles[indexPath.row]
         
@@ -74,7 +83,12 @@ class MenuViewController: UIViewController, UITableViewDataSource, UITableViewDe
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         
-        hamburgerViewController.contentViewController = viewControllers[indexPath.row]
+        if indexPath.row < 3 {
+            hamburgerViewController.contentViewController = viewControllers[indexPath.row]
+        } else {
+            User.currentUser?.logout()
+        }
+        
     }
 
 }
